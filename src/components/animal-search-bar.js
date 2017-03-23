@@ -27,7 +27,7 @@ class AnimalSearchBar extends Component {
         return (
             <form className="input-group" onSubmit={this.handleFormSubmit}>
                 <input
-                    placeholder="Species or name of animal..."
+                    placeholder="Name or species..."
                     className="form-control"
                     value={this.state.searchTerm} 
                     onChange={this.handleInputChange} />

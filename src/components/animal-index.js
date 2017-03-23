@@ -1,16 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 
 import AnimalSearchBar from './animal-search-bar';
 
-class AnimalSearch extends Component {
+class AnimalIndex extends Component {
+    static contextTypes = {
+        router: PropTypes.object
+    }
+
     constructor(props) {
         super(props);
 
         this.renderAnimal = this.renderAnimal.bind(this);
         this.renderSighting = this.renderSighting.bind(this); 
     }
+
+    handleAnimalSelect(animal) {
+        this.context.router.push(`/animals/${animal.name}`);
+    }
+
     handleAnimalSearch(arg) {
         console.log(arg);
     }
@@ -29,17 +39,10 @@ class AnimalSearch extends Component {
 
     renderAnimal(animal) {
         const { name, species, sightings=[] } = animal;
-        console.log(sightings);
-        const lastSighting = sightings.reduce((prev, curr) => {
-            if (curr.date > prev.date) {
-                return curr;
-            }
-
-            return prev;
-        }, sightings[0]);
+        const lastSighting = getLastSighting(sightings);
 
         return (
-            <tr key={name}>
+            <tr className="animal-row" key={name} onClick={() => this.handleAnimalSelect(animal)}>
                 <td>{name}</td>
                 <td>{species}</td>
                 <td>{this.renderSighting(lastSighting)}</td>
@@ -74,5 +77,14 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, null)(AnimalSearch);
+function getLastSighting(sightings) {
+    return sightings.reduce((prev, curr) => {
+            if (curr.date > prev.date) {
+                return curr;
+            }
 
+            return prev;
+        }, sightings[0]);
+}
+
+export default connect(mapStateToProps, null)(AnimalIndex);

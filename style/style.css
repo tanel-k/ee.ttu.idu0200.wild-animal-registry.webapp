@@ -1,0 +1,16 @@
+.animal-row:hover {
+    cursor: pointer;
+}
+
+.form-value {
+    /* snipped from form-control */
+    display: block;
+    width: 100%;
+    line-height: 1.5;
+    font-size: 1rem;
+    padding: .375rem .75rem;
+}
+
+.mt-1 {
+    margin-top: 25px;
+}

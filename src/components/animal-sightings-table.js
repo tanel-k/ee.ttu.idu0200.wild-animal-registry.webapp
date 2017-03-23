@@ -19,22 +19,20 @@ class AnimalSightingsTable extends Component {
     
     render() {
         return (
-            <div className="row mt-1">
-                <div className="col-sm-12">
-                    <h3>Sightings</h3>
-                    <table className="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Location</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.props.sightings.map(this.renderSighting)}
-                        </tbody>
-                    </table>
-                </div>
+            <div>
+                <h3>Sightings</h3>
+                <table className="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.props.sightings.map(this.renderSighting)}
+                    </tbody>
+                </table>
             </div>
         );
     }

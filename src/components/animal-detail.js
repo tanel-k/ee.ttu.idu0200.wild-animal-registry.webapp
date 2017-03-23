@@ -29,9 +29,21 @@ class AnimalDetail extends Component {
         
         return (
             <div>
-                <AnimalDetailForm animal={animal} handleAnimalChange={this.handleAnimalChange} />
-                <AnimalSightingForm handleNewSighting={this.handleNewSighting} />
-                <AnimalSightingsTable sightings={animal.sightings} />
+                <div className="row mt-1">
+                    <div className="col-sm-12">
+                        <AnimalDetailForm animal={animal} handleAnimalChange={this.handleAnimalChange} />
+                    </div>
+                </div>
+                <div className="row mt-1">
+                    <div className="col-sm-12">
+                        <AnimalSightingForm handleNewSighting={this.handleNewSighting} />
+                    </div>
+                </div>
+                <div className="row mt-1">
+                    <div className="col-sm-12">
+                        <AnimalSightingsTable sightings={animal.sightings} />
+                    </div>
+                </div>
             </div>
         );
     }

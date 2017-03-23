@@ -21,25 +21,21 @@ class AnimalDetailForm extends Component {
         const { name, species } = this.state;
 
         return (
-                <div className="row mt-1">
-                    <div className="col-sm-12">
-                        <h3>Animal</h3>
-                        <form onSubmit={this.handleSave.bind(this)}>
-                            <div className='form-group'>
-                                <label>Name</label>
-                                <span className='form-value'>{name}</span>
-                            </div>
-
-                            <div className='form-group'>
-                                <label>Species</label>
-                                <input onChange={e => this.handleSpeciesChange(e)} className='form-control' value={species} />
-                            </div>
-
-                            <button type="submit" className="btn btn-primary">Save</button>
-                            <Link to="/" className="btn btn-warning">Back</Link>
-                        </form>
-                    </div>
+            <form onSubmit={this.handleSave.bind(this)}>
+                <h3>Animal</h3>
+                <div className='form-group'>
+                    <label>Name</label>
+                    <span className='form-value'>{name}</span>
                 </div>
+
+                <div className='form-group'>
+                    <label>Species</label>
+                    <input onChange={e => this.handleSpeciesChange(e)} className='form-control' value={species} />
+                </div>
+
+                <button type="submit" className="btn btn-primary">Save</button>
+                <Link to="/" className="btn btn-warning">Back</Link>
+            </form>
         );
     }
 

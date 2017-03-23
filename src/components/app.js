@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 
+import Header from './header';
+import Footer from './footer';
+
 export default class App extends Component {
   render() {
     return (
-      <div>Hi</div>
+      <div>
+        {this.props.children}
+      </div>
     );
   }
 }

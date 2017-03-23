@@ -55,7 +55,9 @@ class AnimalDetail extends Component {
     }
 
     handleAnimalChange(animalProps) {
-        this.props.updateAnimal(animalProps);
+        const { name } = animalProps;
+
+        this.props.updateAnimal(name, animalProps);
     }
 }
 

@@ -18,10 +18,10 @@ export function addSighting(animalName, sighting) {
     }
 }
 
-export function updateAnimal(animalProps) {
+export function updateAnimal(animalName, updates) {
     // TODO: Axios
     return {
         type: UPDATE_ANIMAL,
-        payload: animalProps
+        payload: updates
     }
 }

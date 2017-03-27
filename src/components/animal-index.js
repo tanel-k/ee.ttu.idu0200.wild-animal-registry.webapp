@@ -33,7 +33,7 @@ class AnimalIndex extends Component {
         const { date, location } = sighting;
 
         return (
-            <div>{location.humanReadableName}, {JSON.stringify(date)}</div>
+            <div>{JSON.stringify(location)}, {JSON.stringify(date)}</div>
         );
     }
 

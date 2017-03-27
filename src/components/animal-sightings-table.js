@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 
+import AnimalSightingMinimap from './animal-sighting-minimap';
+
 class AnimalSightingsTable extends Component {
     renderSighting(sighting) {
         const {
             id,
             date, 
-            location: { lat, lon, humanReadableName } 
+            location,
         } = sighting;
 
         return (
             <tr key={id}>
                 <td>{JSON.stringify(date)}</td>
-                <td>{humanReadableName} @ {lat}, {lon}</td>
+                <td>
+                    <AnimalSightingMinimap location={location} />
+                </td>
                 <td><button>Delete</button><button>Save</button></td>
             </tr>
         );
@@ -31,7 +35,7 @@ class AnimalSightingsTable extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.props.sightings.map(this.renderSighting)}
+                            {this.props.sightings.map(this.renderSighting.bind(this))}
                         </tbody>
                     </table>
                 </div>

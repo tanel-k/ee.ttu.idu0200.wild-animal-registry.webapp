@@ -12,18 +12,16 @@ const DEFAULT_STATE = {
                 id: SIGHTING_ID_TMP++,
                 date: new Date(),
                 location: {
-                    lat: 0,
-                    lon: 0,
-                    humanReadableName: 'Tallinn'
+                    lat: 37.774929,
+                    lng: -122.419416
                 }
             },
             {
                 id: SIGHTING_ID_TMP++,
                 date: new Date(),
                 location: {
-                    lat: 0,
-                    lon: 0,
-                    humanReadableName: 'Tartu'
+                    lat: 37.774929,
+                    lng: -122.419416
                 }
             },
         ]
@@ -36,18 +34,16 @@ const DEFAULT_STATE = {
                 id: SIGHTING_ID_TMP++,
                 date: new Date(),
                 location: {
-                    lat: 0,
-                    lon: 0,
-                    humanReadableName: 'Rakvere'
+                    lat: 37.774929,
+                    lng: -122.419416
                 }
             },
             {
                 id: SIGHTING_ID_TMP++,
                 date: new Date(),
                 location: {
-                    lat: 0,
-                    lon: 0,
-                    humanReadableName: 'Viljandi'
+                    lat: 37.774929,
+                    lng: -122.419416
                 }
             },
         ]
@@ -60,18 +56,16 @@ const DEFAULT_STATE = {
                 id: SIGHTING_ID_TMP++,
                 date: new Date(),
                 location: {
-                    lat: 0,
-                    lon: 0,
-                    humanReadableName: 'Tampere'
+                    lat: 37.774929,
+                    lng: -122.419416
                 }
             },
             {
                 id: SIGHTING_ID_TMP++,
                 date: new Date(),
                 location: {
-                    lat: 0,
-                    lon: 0,
-                    humanReadableName: 'Tuomela'
+                    lat: 37.774929,
+                    lng: -122.419416
                 }
             },
         ]
@@ -79,7 +73,9 @@ const DEFAULT_STATE = {
     currentAnimal: null
 }
 
-export default function(state=DEFAULT_STATE, action) {
+export default function(state, action) {
+    console.log(state);
+    if (!state) state=DEFAULT_STATE;
     const { currentAnimal } = state;
     switch (action.type) {
         case FETCH_ANIMAL:
@@ -91,7 +87,6 @@ export default function(state=DEFAULT_STATE, action) {
             newSighting.id = SIGHTING_ID_TMP++;
             return { ...state, currentAnimal: { ...currentAnimal, sightings: [newSighting, ...sightings] } };
         case UPDATE_ANIMAL:
-            // FIXME: wonky
             return { ...state, currentAnimal: { ...currentAnimal, ...action.payload }};
         default:
             return state;

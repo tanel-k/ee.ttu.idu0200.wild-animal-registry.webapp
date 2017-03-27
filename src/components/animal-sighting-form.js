@@ -1,22 +1,56 @@
 import React, { Component } from 'react';
 
-export default class AnimalSightingForm extends Component {
+import {
+    GoogleApiComponent,
+    Map,
+    MoveableMarker,
+    LocationSearch
+} from '../lib/google-maps/index';
+import { GOOGLE_MAPS_KEY } from '../consts/api-keys';
+
+class AnimalSightingForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             date: null,
+            mapCenter: {
+                lat: 37.774929,
+                lng: -122.419416
+            },
             location: {
-                humanReadableName: null,
-                latitude: null,
-                longitude: null
-            }
+                lat: 37.774929,
+                lng: -122.419416
+            },
         }
 
         this.handleAdd = this.handleAdd.bind(this);
+        this.handleLocationSearch = this.handleLocationSearch.bind(this);
+        this.handleMarkerMoved = this.handleMarkerMoved.bind(this);
+    }
+
+    handleLocationSearch(position) {
+        this.setState({
+            mapCenter: position,
+            location: position,
+        });
+    }
+
+    handleMarkerMoved(position) {
+        this.setState({
+            location: position
+        });
     }
 
     render() {
+        if (!this.props.loaded) {
+            return (
+                <div>
+                    Loading...
+                </div>
+            );
+        }
+
         return (
             <div className="row mt-1">
                 <div className="col-sm-12">
@@ -28,18 +62,11 @@ export default class AnimalSightingForm extends Component {
                         </div>
 
                         <div className='form-group'>
-                            <label>Location name</label>
-                            <input onChange={e => this.handleLocationNameChange(e)}  value={this.state.location.humanReadableName} className='form-control'/>
-                        </div>
-
-                        <div className='form-group'>
-                            <label>Latitude</label>
-                            <input onChange={e => this.handleLatitudeChange(e)}  value={this.state.location.latitude} className='form-control' />
-                        </div>
-
-                        <div className='form-group'>
-                            <label>Longitude</label>
-                            <input onChange={e => this.handleLongitudeChange(e)} value={this.state.location.longitude} className='form-control' />
+                            <label>Location</label>
+                            <LocationSearch google={this.props.google} handlePositionChanged={this.handleLocationSearch}/>
+                            <Map google={this.props.google} center={this.state.mapCenter}>
+                                <MoveableMarker position={this.state.location} handleMarkerMoved={this.handleMarkerMoved} />
+                            </Map>
                         </div>
 
                         <button type="submit" className="btn btn-success">Add</button>
@@ -48,7 +75,6 @@ export default class AnimalSightingForm extends Component {
             </div>
         );
     }
-
 
     handleAdd(event) {
         event.preventDefault();
@@ -60,31 +86,8 @@ export default class AnimalSightingForm extends Component {
             date: event.target.value
         });
     }
-
-    handleLocationNameChange(event) {
-        this.setState({
-            location: {
-                ...this.state.location,
-                humanReadableName: event.target.value
-            }
-        });
-    }
-
-    handleLatitudeChange(event) {
-        this.setState({
-            location: {
-                ...this.state.location,
-                latitude: event.target.value
-            }
-        });
-    }
-
-    handleLongitudeChange(event) {
-        this.setState({
-            location: {
-                ...this.state.location,
-                longitude: event.target.value
-            }
-        });
-    }
 }
+
+export default GoogleApiComponent({
+    apiKey: GOOGLE_MAPS_KEY
+})(AnimalSightingForm);

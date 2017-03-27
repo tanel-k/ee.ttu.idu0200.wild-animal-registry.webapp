@@ -15,17 +15,25 @@ export const wrapper = (options) => (WrappedComponent) => {
 
       this.state = {
         loaded: false,
-        google: null
+        google: null,
+        mounted: false,
       }
     }
 
     componentDidMount() {
       const refs = this.refs;
       this.scriptCache.google.onLoad((err, tag) => {
-        this.setState({
-          loaded: true,
-          google: window.google
-        })
+        if (this.mounted) {
+          /*
+           * If this resolves when
+           * the component has not been
+           * mounted we get an annoying error.
+          */
+          this.setState({
+            loaded: true,
+            google: window.google
+          })
+        }
       });
     }
 
@@ -36,6 +44,12 @@ export const wrapper = (options) => (WrappedComponent) => {
           libraries: libraries
         })
       });
+
+      this.mounted = true;
+    }
+
+    componentWillUnmount() {
+      this.mounted = false;
     }
 
     render() {

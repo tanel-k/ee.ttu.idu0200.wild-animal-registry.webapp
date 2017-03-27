@@ -74,7 +74,6 @@ const DEFAULT_STATE = {
 }
 
 export default function(state, action) {
-    console.log(state);
     if (!state) state=DEFAULT_STATE;
     const { currentAnimal } = state;
     switch (action.type) {

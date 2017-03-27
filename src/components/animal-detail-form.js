@@ -11,26 +11,23 @@ class AnimalDetailForm extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const { name, species } = this.props.animal;
-
         this.setState({ name, species });
     }
 
     render() {
-        const { name, species } = this.state;
-
         return (
             <form onSubmit={this.handleSave.bind(this)}>
                 <h3>Animal</h3>
                 <div className='form-group'>
                     <label>Name</label>
-                    <span className='form-value'>{name}</span>
+                    <span className='form-value'>{this.state.name}</span>
                 </div>
 
                 <div className='form-group'>
                     <label>Species</label>
-                    <input onChange={e => this.handleSpeciesChange(e)} className='form-control' value={species} />
+                    <input onChange={e => this.handleSpeciesChange(e)} className='form-control' value={this.state.species} />
                 </div>
 
                 <button type="submit" className="btn btn-primary">Save</button>

@@ -24,6 +24,7 @@ class GoogleMapContainer extends Component {
             }
         }
     }
+
     render() {
         if (!this.props.loaded) {
             return (

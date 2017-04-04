@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
-class AnimalDetailForm extends Component {
+class AnimalEditor extends Component {
     constructor(props) {
         super(props);
         
@@ -16,10 +16,20 @@ class AnimalDetailForm extends Component {
         this.setState({ name, species });
     }
 
+    handleSpeciesChange(event) {
+        this.setState({ species: event.target.value });
+    }
+
+    handleSave(event) {
+        event.preventDefault();
+        this.props.handleAnimalChange(this.state);
+    }
+
     render() {
+        const { name, species } = this.props.animal;
+
         return (
             <form onSubmit={this.handleSave.bind(this)}>
-                <h3>Animal</h3>
                 <div className='form-group'>
                     <label>Name</label>
                     <span className='form-value'>{this.state.name}</span>
@@ -30,20 +40,20 @@ class AnimalDetailForm extends Component {
                     <input onChange={e => this.handleSpeciesChange(e)} className='form-control' value={this.state.species} />
                 </div>
 
-                <button type="submit" className="btn btn-primary">Save</button>
-                <Link to="/" className="btn btn-warning">Back</Link>
+                <button type="submit" className="btn btn-primary btn-block">Save</button>
+                <button className="btn btn-danger btn-block">Delete</button>
+                <Link to="/" className="btn btn-default btn-block">Cancel</Link>
             </form>
         );
     }
-
-    handleSpeciesChange(event) {
-        this.setState({ species: event.target.value });
-    }
-
-    handleSave(event) {
-        event.preventDefault();
-        this.props.handleAnimalChange(this.state);
-    }
 }
 
-export default AnimalDetailForm;
+AnimalEditor.propTypes = {
+    handleAnimalChange: PropTypes.func,
+};
+
+AnimalEditor.defaultProps = {
+    handleAnimalChange: () => {},
+};
+
+export default AnimalEditor;

@@ -74,7 +74,7 @@ const DEFAULT_STATE = {
 }
 
 export default function(state, action) {
-    if (!state) state=DEFAULT_STATE;
+    if (!state) state = DEFAULT_STATE;
     const { currentAnimal } = state;
     switch (action.type) {
         case FETCH_ANIMAL:
@@ -93,6 +93,5 @@ export default function(state, action) {
 }
 
 function findAnimal(all, name) {
-    // TODO: remove
     return all.find(animal => animal.name === name);
 }

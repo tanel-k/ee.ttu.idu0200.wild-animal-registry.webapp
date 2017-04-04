@@ -7,10 +7,19 @@
     display: block;
     width: 100%;
     line-height: 1.5;
-    font-size: 1rem;
     padding: .375rem .75rem;
 }
 
-.mt-1 {
-    margin-top: 25px;
+.panel-heading h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    width: 75%;
+    padding-top: 8px;
+}
+
+body {
+    padding: 10px;
+    overflow-y: scroll;
 }

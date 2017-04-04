@@ -6,7 +6,7 @@ import { equalPositions } from '../utils/position-utils';
 
 const evtTypes = ['click'];
 const markerEvtTypes = ['click'];
-
+// TODO: center on current location if able
 class GoogleMap extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.google !== this.props.google) {
@@ -58,7 +58,8 @@ class GoogleMap extends Component {
                 zoom,
                 draggable,
                 streetViewControl,
-                disableDoubleClickZoom
+                disableDoubleClickZoom,
+                disableScrollZoom
             } = this.props;
 
             center = new maps.LatLng(center.lat, center.lng);
@@ -69,6 +70,16 @@ class GoogleMap extends Component {
                 streetViewControl,
                 disableDoubleClickZoom,
             });
+
+            if (disableScrollZoom) {
+                Object.assign(mapCfg, {
+                    scrollwheel: false,
+                    navigationControl: false,
+                    mapTypeControl: false,
+                    scaleControl: false,
+                    draggable: false,
+                });
+            }
 
             this.map = new maps.Map(node, mapCfg);
 
@@ -115,6 +126,7 @@ GoogleMap.propTypes = {
     draggable: PropTypes.bool,
     streetViewControl: PropTypes.bool,
     disableDoubleClickZoom: PropTypes.bool,
+    disableScrollZoom: PropTypes.bool,
 }
 
 evtTypes.forEach(evtType => GoogleMap.propTypes[`on${camelize(evtType)}`] = React.PropTypes.func);
@@ -126,6 +138,7 @@ GoogleMap.defaultProps = {
     draggable: true,
     streetViewControl: false,
     disableDoubleClickZoom: true,
+    disableScrollZoom: false,
 }
 
 export default GoogleMap;

@@ -2,6 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
 class LocationSearch extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleSearch = this.handleSearch.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
+    }
+
     componentDidUpdate(prevProps) {
         const { google, map } = this.props;
         if (google !== prevProps.google) {
@@ -41,16 +48,30 @@ class LocationSearch extends Component {
             event.preventDefault();
         }
     }
+    
+    handleSearch(event) {
+        event.preventDefault();
+        if (this.refs.autocomplete) {
+            this.refs.autocomplete.focus();
+        }
+    }
 
     render() {
         return (
-            <input 
-                ref='autocomplete'
-                onKeyPress={this.onKeyPress} 
-                className={this.props.inputClassName} 
-                type='text'
-                placeholder={this.props.inputPlaceholder} 
-            />
+            <div className="input-group">
+                <input 
+                    ref='autocomplete' 
+                    className={this.props.inputClassName} 
+                    type='text'
+                    placeholder={this.props.inputPlaceholder}
+                    onKeyPress={this.onKeyPress}
+                />
+                <span className="input-group-btn">
+                    <button 
+                        className="btn btn-secondary" 
+                        onClick={this.handleSearch}>Search</button>
+                </span>
+            </div>
         );
     }
 }

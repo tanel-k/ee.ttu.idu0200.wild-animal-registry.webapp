@@ -30,7 +30,8 @@ class AnimalSearchBar extends Component {
                     placeholder="Name or species..."
                     className="form-control"
                     value={this.state.searchTerm} 
-                    onChange={this.handleInputChange} />
+                    onChange={this.handleInputChange} 
+                />
                 <span className="input-group-btn">
                     <button type="submit" className="btn btn-secondary">Search</button>
                 </span>

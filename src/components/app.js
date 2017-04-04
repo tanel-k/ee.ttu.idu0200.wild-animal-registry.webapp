@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 
-export default class App extends Component {
+import Moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+momentLocalizer(Moment);
+
+import Navbar from './navbar';
+
+class App extends Component {
   render() {
     return (
-      <div>
-        {this.props.children}
+      <div className='body'>
+        <Navbar router={this.props.router} />
+        <div className='container'>
+          {this.props.children}
+        </div>
       </div>
     );
   }
 }
+
+export default withRouter(App);

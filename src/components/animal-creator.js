@@ -12,9 +12,13 @@ class AnimalCreator extends Component {
 
     }
 
+    handleCreate(event) {
+        event.preventDefault();
+    }
+
     render() {
         return (
-            <form>
+            <form onSubmit={this.handleCreate.bind(this)}>
                 <h3>Register an animal</h3>
                 
                 <div className='form-group'>
@@ -27,8 +31,8 @@ class AnimalCreator extends Component {
                     <input className='form-control' value={this.state.name} />
                 </div>
 
-                <button type="submit" className="btn btn-primary">Create</button>
-                <Link to="/" className="btn btn-danger">Cancel</Link>
+                <button type='submit' className='btn btn-block btn-primary'>Create</button>
+                <Link to='/' className='btn btn-block btn-default'>Cancel</Link>
             </form>
         );
     }

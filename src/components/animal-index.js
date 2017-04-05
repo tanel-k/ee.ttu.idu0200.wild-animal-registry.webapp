@@ -17,11 +17,11 @@ class AnimalIndex extends Component {
     }
 
     handleAnimalSelect(animal) {
-        this.context.router.push(`/animals/${animal.name}`);
+        this.context.router.push(`/animals/${animal.slug}`);
     }
 
     handleAnimalSearch(arg) {
-        console.log(arg);
+        console.warn('search not implemented yet', arg);
     }
 
     renderAnimal(animal) {

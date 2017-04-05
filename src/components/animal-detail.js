@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { fetchAnimal, addSighting, updateAnimal } from '../actions/index';
+import {
+    fetchAnimal,
+    updateAnimal,
+    addSighting,
+    deleteAnimal
+} from '../actions/index';
 import AnimalEditor from './animal-editor';
 import SightingInlineEditor from './sighting-inline-editor';
 
@@ -14,15 +19,15 @@ class AnimalDetail extends Component {
     }
 
     componentWillMount() {
-        const { params: { name }, fetchAnimal } = this.props;
+        const { params: { slug }, fetchAnimal } = this.props;
 
-        fetchAnimal(name);
+        fetchAnimal(slug);
     }
 
     handleAnimalChange(animalProps) {
-        const { name } = animalProps;
+        const { slug } = animalProps;
 
-        this.props.updateAnimal(name, animalProps);
+        this.props.updateAnimal(slug, animalProps);
     }
 
     render() {
@@ -46,7 +51,7 @@ class AnimalDetail extends Component {
                 <div className="row mt-1">
                     <div className="col-sm-12">
                         <h3>Sightings</h3>
-                        <Link to={`/animals/${animal.name}/sightings/new`} className="btn btn-block btn-primary mb-2">Add sighting</Link>
+                        <Link to={`/animals/${animal.slug}/sightings/new`} className="btn btn-block btn-primary mb-2">Add sighting</Link>
                         {animal.sightings.map((sighting => (<SightingInlineEditor key={sighting.id} sighting={sighting}/>)))}
                     </div>
                 </div>
@@ -61,4 +66,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { fetchAnimal, addSighting, updateAnimal })(AnimalDetail);
+export default connect(mapStateToProps, { fetchAnimal, addSighting, deleteAnimal, updateAnimal })(AnimalDetail);

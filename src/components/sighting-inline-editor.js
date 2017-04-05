@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
 import { DateTimePicker } from 'react-widgets';
 
@@ -75,15 +76,29 @@ class SightingInlineEditor extends Component {
                             onChange={this.handleDateChange}
                         />
                     </div>
+
                     <div className='form-group'>
                         <label>Location</label>
-                        <LocationSearch google={this.props.google} handlePositionChanged={this.handleLocationSearch}/>
-                        <Map zoom={10} height='200px' google={this.props.google} center={this.state.location}>
-                            <MoveableMarker position={this.state.location} handleMarkerMoved={this.handleMarkerMoved} />
+                        <LocationSearch 
+                            google={this.props.google} 
+                            handlePositionChanged={this.handleLocationSearch}
+                        />
+                        <Map zoom={10} 
+                            height='200px' 
+                            google={this.props.google} 
+                            center={this.state.location}
+                        >
+                            <MoveableMarker 
+                                position={this.state.location} 
+                                handleMarkerMoved={this.handleMarkerMoved} 
+                            />
                         </Map>
                     </div>
-                    <button className='btn btn-block btn-success' onClick={this.handleSave}>Save</button>
-                    <button className='btn btn-block btn-danger' onClick={this.handleDelete}>Delete</button>
+
+                    <button className='btn btn-block btn-success' 
+                        onClick={this.handleSave}>Save</button>
+                    <button className='btn btn-block btn-danger' 
+                        onClick={this.handleDelete}>Delete</button>
                 </div>
             </div>
         );

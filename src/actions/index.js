@@ -8,11 +8,11 @@ export const CREATE_ANIMAL = 'CREATE_ANIMAL';
 export const UPDATE_ANIMAL = 'CHANGE_ANIMAL';
 export const DELETE_ANIMAL = 'DELETE_ANIMAL';
 
-export function fetchAnimal(name) {
+export function fetchAnimal(slug) {
     // TODO: Axios
     return {
         type: FETCH_ANIMAL,
-        payload: name
+        payload: slug
     }
 }
 
@@ -24,7 +24,7 @@ export function createAnimal(animalData) {
     }
 }
 
-export function updateAnimal(animalName, updates) {
+export function updateAnimal(slug, updates) {
     // TODO: Axios
     return {
         type: UPDATE_ANIMAL,
@@ -32,11 +32,11 @@ export function updateAnimal(animalName, updates) {
     }
 }
 
-export function deleteAnimal(animalName) {
+export function deleteAnimal(slug) {
     // TODO: Axios
     return {
         type: DELETE_ANIMAL,
-        payload: animalName
+        payload: slug
     }
 }
 
@@ -48,7 +48,7 @@ export function fetchSighting(id) {
     }
 }
 
-export function createSighting(animalName, sighting) {
+export function createSighting(animalSlug, sighting) {
     // TODO: Axios
     return {
         type: CREATE_SIGHTING,

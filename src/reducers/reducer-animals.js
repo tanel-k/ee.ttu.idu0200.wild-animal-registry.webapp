@@ -6,6 +6,7 @@ const DEFAULT_STATE = {
     all: [
     {
         name: 'Jazz',
+        slug: 'jazz',
         species: 'Neutered hare',
         sightings: [
             {
@@ -29,6 +30,7 @@ const DEFAULT_STATE = {
     {
         name: 'Buzz',
         species: 'Wild arse fly',
+        slug: 'buzz',
         sightings: [
             {
                 id: SIGHTING_ID_TMP++,
@@ -51,6 +53,7 @@ const DEFAULT_STATE = {
     {
         name: 'Buck',
         species: 'Dry land dolphin',
+        slug: 'buck',
         sightings: [
             {
                 id: SIGHTING_ID_TMP++,
@@ -92,6 +95,6 @@ export default function(state, action) {
     }
 }
 
-function findAnimal(all, name) {
-    return all.find(animal => animal.name === name);
+function findAnimal(all, slug) {
+    return all.find(animal => animal.slug === slug);
 }

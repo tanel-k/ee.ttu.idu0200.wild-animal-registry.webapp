@@ -18,8 +18,8 @@ class MarkerInfoWindow extends Component {
         if (this.props.map !== prevProps.map)
             this.renderInfoWindow();      
 
-        if (this.props.children !== prevProps.children)
-            this.updateContent();
+        //if (this.props.children !== prevProps.children)
+         this.updateContent();
 
         if (this.state.visible !== prevState.visible)
             this.updateVisibility();

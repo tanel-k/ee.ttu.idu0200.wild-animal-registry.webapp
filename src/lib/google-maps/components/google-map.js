@@ -6,7 +6,7 @@ import { equalPositions } from '../utils/position-utils';
 
 const evtTypes = ['click'];
 const markerEvtTypes = ['click'];
-// TODO: center on current location if able
+
 class GoogleMap extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.google !== this.props.google) {

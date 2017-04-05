@@ -51,7 +51,7 @@ class AnimalMiniDisplay extends Component {
             <div className='panel panel-info'>
                 <div className='panel-heading'>
                     <h4 className='pull-left'>{animal.name}<small><em> {animal.species}</em></small></h4>
-                    <Link to={`/animals/${animal.name}`} className='btn btn-primary pull-right'>View</Link>
+                    <Link to={`/animals/${animal.slug}`} className='btn btn-primary pull-right'>View</Link>
                     <div className="clearfix"></div>
                 </div>
                 <div className='panel-body'>

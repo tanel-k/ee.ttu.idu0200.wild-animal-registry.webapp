@@ -21,7 +21,7 @@ class AnimalDetail extends Component {
     componentWillMount() {
         const { params: { slug }, fetchAnimal } = this.props;
 
-        fetchAnimal(slug);
+        fetchAnimal(id);
     }
 
     handleAnimalChange(animalProps) {
@@ -51,7 +51,7 @@ class AnimalDetail extends Component {
                 <div className="row mt-1">
                     <div className="col-sm-12">
                         <h3>Sightings</h3>
-                        <Link to={`/animals/${animal.slug}/sightings/new`} className="btn btn-block btn-primary mb-2">Add sighting</Link>
+                        <Link to={`/animals/${animal.id}/sightings/new`} className="btn btn-block btn-primary mb-2">Add sighting</Link>
                         {animal.sightings.map((sighting => (<SightingInlineEditor key={sighting.id} sighting={sighting}/>)))}
                     </div>
                 </div>

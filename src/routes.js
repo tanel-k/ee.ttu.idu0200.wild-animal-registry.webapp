@@ -12,8 +12,8 @@ export default (
     <Route path='/' component={App}>
         <IndexRoute component={AnimalIndex} />
         <Route path='animals/new' component={AnimalCreator} />
-        <Route path='animals/:slug' component={AnimalDetail} />
-        <Route path='animals/:slug/sightings/new' component={SightingCreator} />
+        <Route path='animals/:id' component={AnimalDetail} />
+        <Route path='animals/:id/sightings/new' component={SightingCreator} />
         <Route path='sightings' component={SightingsMap} />
     </Route>
 );

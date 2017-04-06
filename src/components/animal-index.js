@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
+import { searchAnimals } from '../actions/index';
+
 import AnimalMiniDisplay from './animal-mini-display';
 import AnimalSearchBar from './animal-search-bar';
 
@@ -14,14 +16,15 @@ class AnimalIndex extends Component {
         super(props);
 
         this.renderAnimal = this.renderAnimal.bind(this);
+        this.handleAnimalSearch = this.handleAnimalSearch.bind(this);
     }
 
     handleAnimalSelect(animal) {
-        this.context.router.push(`/animals/${animal.slug}`);
+        this.context.router.push(`/animals/${animal.id}`);
     }
 
-    handleAnimalSearch(arg) {
-        console.warn('search not implemented yet', arg);
+    handleAnimalSearch(speciesOrName) {
+        this.props.searchAnimals(speciesOrName);
     }
 
     renderAnimal(animal) {
@@ -55,7 +58,9 @@ class AnimalIndex extends Component {
 }
 
 const mapStateToProps = (state)  => ({
-      animals: state.animals.all
+      animals: state.animals.found,
 });
 
-export default connect(mapStateToProps, null)(AnimalIndex);
+export default connect(mapStateToProps, {
+    searchAnimals,
+})(AnimalIndex);

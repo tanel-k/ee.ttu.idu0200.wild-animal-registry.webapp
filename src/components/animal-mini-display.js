@@ -15,12 +15,17 @@ class AnimalMiniDisplay extends Component {
         if (!sighting)
             return (<span>Not sighted yet.</span>);
         
+        const position = {
+            lat: sighting.latitude,
+            lng: sighting.longitude
+        };
+
         return (
             <div>
                 <h4>Last seen</h4>
                 <div className='form-group'>
                     <label>Date</label>
-                    <div>{formatDate(sighting.date, 'D MMM YYYY HH:mm')}</div>
+                    <div>{formatDate(sighting.dttm, 'D MMM YYYY HH:mm')}</div>
                 </div>
                 <div className='form-group'>
                     <label>Location</label>
@@ -28,9 +33,9 @@ class AnimalMiniDisplay extends Component {
                         disableScrollZoom={true} 
                         zoom={12} height='200px' 
                         google={this.props.google} 
-                        center={sighting.location}
+                        center={position}
                     >
-                        <Marker position={sighting.location} />
+                        <Marker position={position} />
                     </Map>
                 </div>
             </div>
@@ -45,32 +50,21 @@ class AnimalMiniDisplay extends Component {
         }
 
         const { animal } = this.props;
-        const lastSighting = getLastSighting(animal.sightings);
 
         return (
             <div className='panel panel-info'>
                 <div className='panel-heading'>
                     <h4 className='pull-left'>{animal.name}<small><em> {animal.species}</em></small></h4>
-                    <Link to={`/animals/${animal.slug}`} className='btn btn-primary pull-right'>View</Link>
-                    <div className="clearfix"></div>
+                    <Link to={`/animals/${animal.id}`} className='btn btn-primary pull-right'>View</Link>
+                    <div className='clearfix'></div>
                 </div>
                 <div className='panel-body'>
-                    {this.renderSighting(lastSighting)}
+                    {this.renderSighting(animal.last_sighting)}
                 </div>
             </div>
         );
     }
 }
-
-const getLastSighting = (sightings=[]) => (
-    sightings.reduce((prev, curr) => {
-        if (curr.date > prev.date) {
-            return curr;
-        }
-
-        return prev;
-    }, sightings[0])
-);
 
 export default GoogleApiComponent({
     apiKey: GOOGLE_MAPS_KEY

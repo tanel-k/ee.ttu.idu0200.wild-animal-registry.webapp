@@ -60,7 +60,6 @@ export function deleteAnimal(id) {
     const request = axios.delete(`${ROOT_URL}/animals/${id}`);
     return {
         type: DELETE_ANIMAL,
-        animalId: id,
         payload: request
     };
 }

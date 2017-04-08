@@ -10,6 +10,9 @@ import {
 } from '../actions/index';
 
 import {
+    equalPositions
+} from '../lib/google-maps/utils/position-utils';
+import {
     GoogleApiComponent,
     Map,
     Marker,
@@ -30,6 +33,7 @@ class SightingInlineEditor extends Component {
             date: new Date(dttm),
             isSaving: false,
             isDeleting: false,
+            isDirty: false,
         };
 
         this.handleLocationSearch = this.handleLocationSearch.bind(this);
@@ -37,6 +41,18 @@ class SightingInlineEditor extends Component {
         this.handleMarkerMoved = this.handleMarkerMoved.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (!this.state.isDirty) {
+            let isDirty = prevState.location 
+                && this.state.location 
+                && !equalPositions(prevState.location, this.state.location);
+            isDirty = isDirty || prevState.date !== this.state.date;
+            if (isDirty)
+                this.setState({ isDirty });
+        }
+
     }
 
     handleLocationSearch(location) {
@@ -63,7 +79,7 @@ class SightingInlineEditor extends Component {
             longitude: this.state.location.lng,
             dttm: this.state.date,
         }).then(() => {
-            this.setState({ isSaving: false });
+            this.setState({ isSaving: false, isDirty: false });
         });
     }
 
@@ -120,7 +136,7 @@ class SightingInlineEditor extends Component {
                     <button
                         className='btn btn-block btn-success' 
                         onClick={this.handleSave}
-                        disabled={this.state.isSaving || this.state.isDeleting}
+                        disabled={!this.state.isDirty || this.state.isSaving || this.state.isDeleting}
                     >Save</button>
                     <button
                         className='btn btn-block btn-danger' 

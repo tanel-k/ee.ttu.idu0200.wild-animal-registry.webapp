@@ -17,6 +17,6 @@ export default (
         <Route path='animals/:id/sightings/new' component={SightingCreator} />
         <Route path='sightings' component={SightingsMap} />
         <Route path='notfound' component={NotFoundPage} />
-        <Route path="*" component={NotFoundPage} />
+        <Route path='*' component={NotFoundPage} />
     </Route>
 );

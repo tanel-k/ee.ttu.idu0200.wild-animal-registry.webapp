@@ -1,15 +1,11 @@
 var express = require('express');
-var app = express();
+var fallback = require('express-history-api-fallback');
 
-//app.use(express.static(__dirname + '/'));
-/*
-app.get('/*', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
-});
-*/
-app.use('*', function(req, res, next) {
-    res.sendFile(__dirname + '/index.html');
-});
+var app = express();
+var root = `${__dirname}/`;
+app.use(express.static.root);
+app.use(fallback('index.html', { root }));
+
 var port = process.env.PORT || 8080;
 app.listen(port);
 console.log(`listening on port: ${port}`)

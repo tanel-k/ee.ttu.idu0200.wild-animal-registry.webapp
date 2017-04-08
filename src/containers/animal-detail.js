@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -13,9 +13,18 @@ import AnimalEditor from './animal-editor';
 import SightingInlineEditor from './sighting-inline-editor';
 
 class AnimalDetail extends Component {
+    static contextTypes = {
+        router: PropTypes.object
+    }
+
     componentWillMount() {
         const { id } = this.props.params;
-        this.props.fetchAnimal(id);
+        this.props.fetchAnimal(id)
+            .then((response) => {
+                if (response.error) {
+                    this.context.router.push('/notfound');
+                }
+            });
         this.props.fetchAnimalSightings(id);
     }
 

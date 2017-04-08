@@ -4,8 +4,8 @@ import { Link } from 'react-router';
 
 import { searchAnimals } from '../actions/index';
 
-import AnimalMiniDisplay from './animal-mini-display';
-import AnimalSearchBar from './animal-search-bar';
+import AnimalMiniDisplay from '../components/animal-mini-display';
+import AnimalSearchBar from '../components/animal-search-bar';
 
 class AnimalIndex extends Component {
     static contextTypes = {

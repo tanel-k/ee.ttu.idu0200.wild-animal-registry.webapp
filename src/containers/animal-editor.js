@@ -7,7 +7,7 @@ import {
     deleteAnimal,
     updateAnimal,
 } from '../actions/index';
-import SpeciesSelector from './controls/species-selector';
+import SpeciesSelector from '../components/controls/species-selector';
 
 class AnimalEditor extends Component {
     static contextTypes = {

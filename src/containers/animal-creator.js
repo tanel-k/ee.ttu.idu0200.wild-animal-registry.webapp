@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {
     createAnimal,
 } from '../actions/index';
-import SpeciesSelector from './controls/species-selector';
+import SpeciesSelector from '../components/controls/species-selector';
 
 class AnimalCreator extends Component {
     static contextTypes = {

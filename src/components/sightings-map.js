@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+
+import {
+    fetchSightings,
+} from '../actions/index';
 
 import {
     GoogleApiComponent,
@@ -12,17 +17,25 @@ import { GOOGLE_MAPS_KEY } from '../consts/api-keys';
 
 import { format as formatDate } from '../lib/utils/date-utils';
 
-const defaultCenterCoords = { lat: 37.774929, lng: -122.419416 };
+const defaultCenter = { lat: 37.774929, lng: -122.419416 };
 
 class SightingsMap extends Component {
     constructor(props) {
         super(props);
 
-        let state = { center: defaultCenterCoords };
+        let state = {
+            center: defaultCenter,
+            loadingMarkers: true
+        };
         this.state = state;
 
         this.renderMarkers = this.renderMarkers.bind(this);
         this.handleLocationSearch = this.handleLocationSearch.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.fetchSightings()
+            .then(this.setState({ loadingMarkers: false }))
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -53,18 +66,21 @@ class SightingsMap extends Component {
 
     renderMarkers() {
         return this.props.sightings.map(sighting => (
-            <Marker key={sighting.id} position={sighting.position}>
+            <Marker key={sighting.id} position={{
+                lat: sighting.latitude,
+                lng: sighting.longitude,
+            }}>
                 <MarkerInfoWindow>
                     <div>
                         <h5>
-                            <a href={`/animals/${sighting.animal.slug}`} className='btn btn-link display-inline'>
+                            <a href={`/animals/${sighting.animal.id}`} className='btn btn-link display-inline'>
                                 {sighting.animal.name} <small>{sighting.animal.species}</small>
                             </a>
                         </h5>
                         <div className='form-group'>
                             <label>Date</label>
                             <div>
-                                {formatDate(sighting.date, 'D MMM YYYY HH:mm')}
+                                {formatDate(sighting.dttm, 'D MMM YYYY HH:mm')}
                             </div>
                         </div>
                     </div>
@@ -74,7 +90,7 @@ class SightingsMap extends Component {
     }
 
     render() {
-        if (!this.props.loaded) {
+        if (!this.props.loaded || this.state.loadingMarkers) {
             return (
                 <div>
                     Loading...
@@ -95,6 +111,7 @@ class SightingsMap extends Component {
                             google={this.props.google}
                             center={this.state.center}
                             zoom={15}
+                            height={'400px'}
                         >
                             {this.renderMarkers()}
                         </Map>
@@ -112,6 +129,14 @@ SightingsMap.propTypes = {
 SightingsMap.defaultProps = {
     sightings: [],
 };
+
+const mapStateToProps = (state) =>({
+    sightings: state.sightings.all,
+});
+
+SightingsMap = connect(mapStateToProps, {
+    fetchSightings,
+})(SightingsMap);
 
 export default GoogleApiComponent({
     apiKey: GOOGLE_MAPS_KEY

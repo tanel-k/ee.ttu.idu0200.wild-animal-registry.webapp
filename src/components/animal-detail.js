@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 
 import {
     fetchAnimal,
+    fetchAnimalSightings,
     updateAnimal,
     addSighting,
     deleteAnimal
@@ -12,26 +13,17 @@ import AnimalEditor from './animal-editor';
 import SightingInlineEditor from './sighting-inline-editor';
 
 class AnimalDetail extends Component {
-    constructor(props) {
-        super(props);
-
-        this.handleAnimalChange = this.handleAnimalChange.bind(this);
-    }
-
     componentWillMount() {
-        const { params: { slug }, fetchAnimal } = this.props;
-
-        fetchAnimal(id);
-    }
-
-    handleAnimalChange(animalProps) {
-        const { slug } = animalProps;
-
-        this.props.updateAnimal(slug, animalProps);
+        const { id } = this.props.params;
+        this.props.fetchAnimal(id);
+        this.props.fetchAnimalSightings(id);
     }
 
     render() {
-        const { animal } = this.props;
+        const {
+            animal,
+            sightings
+        } = this.props;
 
         if(!animal) {
             return (<div>Loading...</div>);
@@ -42,17 +34,17 @@ class AnimalDetail extends Component {
                 <div className="row">
                     <div className="col-sm-12">
                         <h3>Viewing animal: <em>{animal.name}</em></h3>
-                        <AnimalEditor 
-                            animal={animal} 
-                            handleAnimalChange={this.handleAnimalChange} 
-                        />
+                        <AnimalEditor animal={animal} />
                     </div>
                 </div>
                 <div className="row mt-1">
                     <div className="col-sm-12">
                         <h3>Sightings</h3>
-                        <Link to={`/animals/${animal.id}/sightings/new`} className="btn btn-block btn-primary mb-2">Add sighting</Link>
-                        {animal.sightings.map((sighting => (<SightingInlineEditor key={sighting.id} sighting={sighting}/>)))}
+                        <Link 
+                            to={`/animals/${animal.id}/sightings/new`}
+                            className='btn btn-block btn-success mb-2'
+                        >Add sighting</Link>
+                        {sightings.map((sighting => (<SightingInlineEditor key={sighting.id} sighting={sighting}/>)))}
                     </div>
                 </div>
             </div>
@@ -60,10 +52,15 @@ class AnimalDetail extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        animal: state.animals.currentAnimal
-    }
-}
+const mapStateToProps = (state) => ({
+        animal: state.animals.currentAnimal,
+        sightings: state.animals.currentAnimalSightings,
+});
 
-export default connect(mapStateToProps, { fetchAnimal, addSighting, deleteAnimal, updateAnimal })(AnimalDetail);
+export default connect(mapStateToProps, {
+    fetchAnimal,
+    fetchAnimalSightings,
+    addSighting,
+    deleteAnimal,
+    updateAnimal
+})(AnimalDetail);

@@ -15,6 +15,9 @@ class AnimalIndex extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            isSearching: false,
+        };
         this.renderAnimal = this.renderAnimal.bind(this);
         this.handleAnimalSearch = this.handleAnimalSearch.bind(this);
     }
@@ -24,7 +27,9 @@ class AnimalIndex extends Component {
     }
 
     handleAnimalSearch(speciesOrName) {
-        this.props.searchAnimals(speciesOrName);
+        this.setState({ isSearching: true });
+        this.props.searchAnimals(speciesOrName)
+            .then(() => { this.setState({ isSearching: false })});
     }
 
     renderAnimal(animal) {
@@ -39,7 +44,10 @@ class AnimalIndex extends Component {
                 <h3>Animal Index</h3>
                 <div className='row'>
                     <div className='col-md-12'>
-                        <AnimalSearchBar handleSearch={this.handleAnimalSearch} />
+                        <AnimalSearchBar 
+                            handleSearch={this.handleAnimalSearch}
+                            disabled={this.state.isSearching}
+                        />
                     </div>
                 </div>
                 <div className='row mt-3'>

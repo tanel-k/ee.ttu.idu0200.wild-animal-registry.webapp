@@ -1,7 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
 import { DateTimePicker } from 'react-widgets';
+
+import {
+    deleteSighting,
+    updateSighting
+} from '../actions/index';
 
 import {
     GoogleApiComponent,
@@ -15,8 +21,16 @@ import { GOOGLE_MAPS_KEY } from '../consts/api-keys';
 class SightingInlineEditor extends Component {
     constructor(props) {
         super(props);
-        const { location, date } = props.sighting;
-        this.state = { location, date };
+        const { latitude, longitude, dttm } = props.sighting;
+        this.state = {
+            location: {
+                lat: latitude,
+                lng: longitude,
+            },
+            date: new Date(dttm),
+            isSaving: false,
+            isDeleting: false,
+        };
 
         this.handleLocationSearch = this.handleLocationSearch.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
@@ -43,11 +57,19 @@ class SightingInlineEditor extends Component {
     }
 
     handleSave() {
-        console.warn("save not implemented yet!");
+        this.setState({ isSaving: true });
+        this.props.updateSighting(this.props.sighting.id, {
+            latitude: this.state.location.lat,
+            longitude: this.state.location.lng,
+            dttm: this.state.date,
+        }).then(() => {
+            this.setState({ isSaving: false });
+        });
     }
 
     handleDelete() {
-        console.warn("delete not implemented yet!");
+        this.setState({ isDeleting: true });
+        this.props.deleteSighting(this.props.sighting.id);
     }
 
     render() {
@@ -95,10 +117,16 @@ class SightingInlineEditor extends Component {
                         </Map>
                     </div>
 
-                    <button className='btn btn-block btn-success' 
-                        onClick={this.handleSave}>Save</button>
-                    <button className='btn btn-block btn-danger' 
-                        onClick={this.handleDelete}>Delete</button>
+                    <button
+                        className='btn btn-block btn-success' 
+                        onClick={this.handleSave}
+                        disabled={this.state.isSaving || this.state.isDeleting}
+                    >Save</button>
+                    <button
+                        className='btn btn-block btn-danger' 
+                        onClick={this.handleDelete}
+                        disabled={this.state.isSaving || this.state.isDeleting}
+                    >Delete</button>
                 </div>
             </div>
         );
@@ -114,6 +142,11 @@ SightingInlineEditor.defaultProps = {
     handleSave: () => {},
     handleDelete: () => {},
 };
+
+SightingInlineEditor = connect(null, {
+    deleteSighting,
+    updateSighting,
+})(SightingInlineEditor);
 
 export default GoogleApiComponent({
     apiKey: GOOGLE_MAPS_KEY

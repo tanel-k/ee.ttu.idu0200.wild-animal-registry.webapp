@@ -4,7 +4,9 @@
   "description": "IDU0200 III",
   "main": "index.js",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "prod": "NODE_ENV=production node server.js",
+    "postinstall": "webpack -p"
   },
   "author": "",
   "license": "ISC",
@@ -22,13 +24,16 @@
   "dependencies": {
     "axios": "^0.16.0",
     "babel-preset-stage-1": "^6.1.18",
+    "express": "^4.15.2",
     "lodash": "^3.10.1",
     "moment": "^2.18.1",
+    "path": "^0.12.7",
     "react": "^0.14.3",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",
+    "react-select": "^1.0.0-rc.3",
     "react-widgets": "^3.4.6",
     "redux": "^3.0.4",
     "redux-promise": "^0.5.3"

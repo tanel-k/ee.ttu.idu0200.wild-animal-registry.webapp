@@ -1,7 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
 import { DateTimePicker } from 'react-widgets';
+
+import {
+    createSighting,
+} from '../actions/index';
 
 import {
     GoogleApiComponent,
@@ -11,25 +16,55 @@ import {
 } from '../lib/google-maps/index';
 import { GOOGLE_MAPS_KEY } from '../consts/api-keys';
 
+const defaultCenter = {
+    lat: 37.774929,
+    lng: -122.419416
+};
+
 class SightingCreator extends Component {
+    static contextTypes = {
+        router: PropTypes.object
+    }
+
     constructor(props) {
         super(props);
 
         this.state = {
             date: new Date(),
-            mapCenter: {
-                lat: 37.774929,
-                lng: -122.419416
-            },
-            location: {
-                lat: 37.774929,
-                lng: -122.419416
-            },
+            mapCenter: defaultCenter,
+            location: defaultCenter,
+            isAdding: false,
         }
 
         this.handleAdd = this.handleAdd.bind(this);
         this.handleLocationSearch = this.handleLocationSearch.bind(this);
         this.handleMarkerMoved = this.handleMarkerMoved.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!prevProps.loaded && this.props.loaded) {
+            // when google is present
+            if (navigator && navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                        const coords = pos.coords;
+
+                        this.setState({
+                            mapCenter: {
+                                lat: coords.latitude,
+                                lng: coords.longitude
+                            },
+                            location: {
+                                lat: coords.latitude,
+                                lng: coords.longitude
+                            }
+                        });
+                    },
+
+                    // 403 on Chrome if not serving over HTTPS
+                    (err) => console.log(err)
+                );
+            }
+        }
     }
 
     handleLocationSearch(location) {
@@ -44,13 +79,19 @@ class SightingCreator extends Component {
     }
 
     handleDateChange(date, dateStr) {
-        if (date)
+        if (date) {
             this.setState({ date });
+        }
     }
 
     handleAdd(event) {
         event.preventDefault();
-        this.props.handleNewSighting(this.state);
+        this.setState({ isAdding: true });
+        this.props.createSighting(this.props.params.id, {
+            dttm: this.state.date,
+            latitude: this.state.location.lat,
+            longitude: this.state.location.lng,
+        }).then(() => this.context.router.push(`/animals/${this.props.params.id}`));
     }
 
     render() {
@@ -86,8 +127,16 @@ class SightingCreator extends Component {
                                 </Map>
                             </div>
 
-                            <button type="submit" className="btn btn-block btn-success">Add</button>
-                            <Link to={`/animals/${name}`} className="btn btn-block btn-default">Cancel</Link>
+                            <button
+                                type='submit'
+                                className='btn btn-block btn-primary'
+                                diabled={this.state.isAdding}
+                            >Add</button>
+                            <Link
+                                to={`/animals/${this.props.params.id}`}
+                                className='btn btn-block btn-default'
+                                diabled={this.state.isAdding}
+                            >Cancel</Link>
                         </form>
                     </div>
                 </div>
@@ -95,6 +144,10 @@ class SightingCreator extends Component {
         );
     }
 }
+
+SightingCreator = connect(null, {
+    createSighting 
+})(SightingCreator);
 
 export default GoogleApiComponent({
     apiKey: GOOGLE_MAPS_KEY

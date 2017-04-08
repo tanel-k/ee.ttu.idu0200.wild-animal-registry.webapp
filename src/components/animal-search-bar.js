@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 class AnimalSearchBar extends Component {
     constructor(props) {
@@ -31,13 +31,28 @@ class AnimalSearchBar extends Component {
                     className="form-control"
                     value={this.state.searchTerm} 
                     onChange={this.handleInputChange} 
+
                 />
                 <span className="input-group-btn">
-                    <button type="submit" className="btn btn-secondary">Search</button>
+                    <button
+                        type="submit"
+                        className="btn btn-secondary" 
+                        disabled={this.props.disabled}
+                    >Search</button>
                 </span>
             </form>
         );
     }
 }
+
+AnimalSearchBar.propTypes = {
+    disabled: PropTypes.bool,
+    handleSearch: PropTypes.func,
+};
+
+AnimalSearchBar.defaultProps = {
+    disabled: false,
+    handleSearch: () => {},
+};
 
 export default AnimalSearchBar;

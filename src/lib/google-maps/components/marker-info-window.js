@@ -12,6 +12,15 @@ class MarkerInfoWindow extends Component {
         this.state = {
             visible: false
         };
+
+        this.listenerAdded = false;
+    }
+
+    componentDidMount() {
+        if (this.props.marker && !this.listenerAdded) {
+             this.props.marker.addListener('click', () => { this.toggleVisibility() });
+             this.listenerAdded = true;
+        };
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -24,8 +33,9 @@ class MarkerInfoWindow extends Component {
         if (this.state.visible !== prevState.visible)
             this.updateVisibility();
 
-        if (this.props.marker !== prevProps.marker) {
+        if (this.props.marker !== prevProps.marker && !this.listenerAdded) {
             this.props.marker.addListener('click', () => { this.toggleVisibility() });
+            this.listenerAdded = true;
         }
     }
 

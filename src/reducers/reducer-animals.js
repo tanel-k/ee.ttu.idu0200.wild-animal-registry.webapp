@@ -34,8 +34,7 @@ export default function(state=DEFAULT_STATE, action) {
             currentAnimalSightings = action.payload.data || [];
             return { ...state, currentAnimalSightings };
         case DELETE_ANIMAL:
-            found = found.filter(a => a.id !== action.animalId);
-            return { ...state, found, currentAnimal: null, currentAnimalSightings: [] };
+            return { ...state, found: [], currentAnimal: null, currentAnimalSightings: [] };
         case UPDATE_ANIMAL:
             if (!action.error)
                 return { ...state, currentAnimal: action.payload.data };

@@ -73,7 +73,9 @@ class SightingsMap extends Component {
                 <MarkerInfoWindow>
                     <div>
                         <h5>
-                            <a href={`/animals/${sighting.animal.id}`} className='btn btn-link display-inline'>
+                            <a href={`/animals/${sighting.animal.id}`}
+                                target='_blank' 
+                                className='btn btn-link display-inline'>
                                 {sighting.animal.name} <small>{sighting.animal.species}</small>
                             </a>
                         </h5>

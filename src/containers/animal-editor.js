@@ -11,7 +11,8 @@ import SpeciesSelector from '../components/controls/species-selector';
 
 class AnimalEditor extends Component {
     static contextTypes = {
-        router: PropTypes.object
+        router: PropTypes.object,
+        notificationSystem: PropTypes.object
     }
 
     constructor(props) {
@@ -25,6 +26,7 @@ class AnimalEditor extends Component {
             isDeleting: false,
             isSaving: false,
             speciesErrors: [],
+            isDirty: false,
         };
 
         this.handleDelete = this.handleDelete.bind(this);
@@ -40,10 +42,15 @@ class AnimalEditor extends Component {
             species_id: speciesId,
             name: this.props.animal.name
         }).then((result) => {
-            this.setState({ isSaving: false });
+            this.setState({ isSaving: false, isDirty: false });
             if (result.error) {
                 const speciesErrors = result.payload.response.data.species_id || [];
                 this.setState({ speciesErrors });
+            } else {
+                this.context.notificationSystem.addNotification({
+                    message: 'Animal saved',
+                    level: 'success'
+                });
             }
         });
     }
@@ -52,13 +59,20 @@ class AnimalEditor extends Component {
         event.preventDefault();
         this.setState({ isDeleting : true });
         this.props.deleteAnimal(this.state.id)
-            .then(() => this.context.router.push('/'));
+            .then(() => {
+                this.context.router.push('/');
+                this.context.notificationSystem.addNotification({
+                    message: 'Animal deleted',
+                    level: 'success'
+                });
+            });
     }
 
     handleSpeciesSelect(selection) {
         const { label, value } = selection || {};
         this.setState({ speciesId: value, species: label, });
         this.validateSpeciesValue(value);
+        this.setState({ isDirty: true });
     }
 
     handleFormSubmit(event) {
@@ -106,7 +120,7 @@ class AnimalEditor extends Component {
                 <button
                     className='btn btn-primary btn-block'
                     onClick={this.handleSave}
-                    disabled={this.state.isSaving || this.state.isDeleting}
+                    disabled={this.state.isSaving || this.state.isDeleting || !this.state.isDirty}
                 >Save</button>
                 <button
                     className='btn btn-danger btn-block'

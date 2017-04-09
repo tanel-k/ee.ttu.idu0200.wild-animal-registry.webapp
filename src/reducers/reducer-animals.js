@@ -34,13 +34,14 @@ export default function(state=DEFAULT_STATE, action) {
             currentAnimalSightings = action.payload.data || [];
             return { ...state, currentAnimalSightings };
         case DELETE_ANIMAL:
-            return { ...state, found: [], currentAnimal: null, currentAnimalSightings: [] };
+            found = state.found.filter(a => a.id !== action.meta.id);
+            return { ...state, found, currentAnimal: null, currentAnimalSightings: [] };
         case UPDATE_ANIMAL:
             if (!action.error)
                 return { ...state, currentAnimal: action.payload.data };
             return state;
         case DELETE_SIGHTING:
-            currentAnimalSightings = state.currentAnimalSightings.filter(s => s.id !== action.sightingId);
+            currentAnimalSightings = state.currentAnimalSightings.filter(s => s.id !== action.meta.id);
             return { ...state, currentAnimalSightings };
         case UPDATE_SIGHTING:
             const sighting = action.payload.data;

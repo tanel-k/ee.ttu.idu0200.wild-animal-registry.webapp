@@ -60,6 +60,7 @@ export function deleteAnimal(id) {
     const request = axios.delete(`${ROOT_URL}/animals/${id}`);
     return {
         type: DELETE_ANIMAL,
+        meta: { id },
         payload: request
     };
 }
@@ -92,7 +93,7 @@ export function deleteSighting(id) {
     const request = axios.delete(`${ROOT_URL}/sightings/${id}`);
     return {
         type: DELETE_SIGHTING,
-        sightingId: id,
+        meta: { id },
         payload: request
     };
 }

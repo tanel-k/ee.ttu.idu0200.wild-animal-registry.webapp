@@ -22,6 +22,10 @@ import {
 import { GOOGLE_MAPS_KEY } from '../consts/api-keys';
 
 class SightingInlineEditor extends Component {
+    static contextTypes = {
+        notificationSystem: PropTypes.object
+    }
+
     constructor(props) {
         super(props);
         const { latitude, longitude, dttm } = props.sighting;
@@ -80,12 +84,22 @@ class SightingInlineEditor extends Component {
             dttm: this.state.date,
         }).then(() => {
             this.setState({ isSaving: false, isDirty: false });
+            this.context.notificationSystem.addNotification({
+                message: 'Sighting saved',
+                level: 'success'
+            });
         });
     }
 
     handleDelete() {
         this.setState({ isDeleting: true });
-        this.props.deleteSighting(this.props.sighting.id);
+        this.props.deleteSighting(this.props.sighting.id)
+            .then(() => {
+                this.context.notificationSystem.addNotification({
+                    message: 'Sighting deleted',
+                    level: 'success'
+                });
+            });
     }
 
     render() {

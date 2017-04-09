@@ -130,12 +130,12 @@ class SightingCreator extends Component {
                             <button
                                 type='submit'
                                 className='btn btn-block btn-primary'
-                                diabled={this.state.isAdding}
+                                disabled={this.state.isAdding}
                             >Add</button>
                             <Link
                                 to={`/animals/${this.props.params.id}`}
                                 className='btn btn-block btn-default'
-                                diabled={this.state.isAdding}
+                                disabled={this.state.isAdding}
                             >Cancel</Link>
                         </form>
                     </div>
